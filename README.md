@@ -76,3 +76,22 @@ Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb me
 ---
 
 ## 📂 Estructura del Proyecto (sugerida)
+airbnb-data-analysis/ 
+│ ├── backend/ 
+│ ├── app/ 
+│ ├── main.py 
+│ └── requirements.txt 
+│ ├── frontend/ 
+│ ├── public/ 
+│ ├── src/ 
+│ └── package.json 
+│ ├── data/ 
+│ ├── raw/ │ 
+├── processed/ 
+│ └── external/
+│ ├── notebooks/ 
+│ └── airbnb_analysis.ipynb 
+│ ├── reports/ 
+│ └── informe_ejecutivo.md 
+│ ├── README.md 
+└── .gitignore
