@@ -76,22 +76,30 @@ Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb me
 ---
 
 ## 📂 Estructura del Proyecto (sugerida)
-airbnb-data-analysis/ 
-│ ├── backend/ 
-│ ├── app/ 
-│ ├── main.py 
-│ └── requirements.txt 
-│ ├── frontend/ 
-│ ├── public/ 
-│ ├── src/ 
-│ └── package.json 
-│ ├── data/ 
-│ ├── raw/ │ 
-├── processed/ 
-│ └── external/
-│ ├── notebooks/ 
-│ └── airbnb_analysis.ipynb 
-│ ├── reports/ 
-│ └── informe_ejecutivo.md 
-│ ├── README.md 
-└── .gitignore
+```markdown
+airbnb-data-analysis/
+│
+├── data/                   # Datos (estructura tipo data science)
+│   ├── raw/                # Datos crudos (sin procesar)
+│   ├── processed/          # Datos procesados/transformados
+│   └── external/           # Datos de terceros (APIs, descargas)
+│
+├── notebooks/              # Análisis exploratorios y experimentos
+│   └── airbnb_analysis.ipynb  # Jupyter Notebook principal
+│
+├── backend/                # Backend (API/ETL)
+│   ├── app/                # Módulos de la aplicación
+│   ├── main.py             # Punto de entrada
+│   └── requirements.txt    # Dependencias de Python
+│
+├── frontend/               # Frontend (visualización/interfaz)
+│   ├── public/             # Assets estáticos (HTML, imágenes)
+│   ├── src/                # Código fuente (JS/React/Vue)
+│   └── package.json        # Dependencias de Node.js
+│
+├── reports/                # Reportes/documentación
+│   └── informe_ejecutivo.md  # Conclusiones en markdown
+│
+├── README.md               # Documentación principal del proyecto
+└── .gitignore              # Archivos excluidos de Git
+```
