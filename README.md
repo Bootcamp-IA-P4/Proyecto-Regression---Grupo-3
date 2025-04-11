@@ -75,6 +75,39 @@ Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb me
 
 ---
 
+### **🌿 Nomenclatura de Ramas (Git Branching)**  
+Se sigue un flujo basado en **Git Flow modificado** para garantizar un desarrollo organizado. Las ramas deben nombrarse así:  
+
+#### **Ramas Principales**  
+| Rama       | Descripción                                                                 | Origen       | Destino de Merge |  
+|------------|-----------------------------------------------------------------------------|--------------|-------------------|  
+| `main`     | Versión estable en producción (solo releases validados).                    | -            | -                |  
+| `dev`      | Integración de features en desarrollo.                                      | `main`       | `test`           |  
+| `test`     | Entorno de pruebas pre-producción (QA).                                     | `main`       | `main`           |  
+
+#### **Ramas de Soporte**  
+| Tipo de Rama  | Convención               | Ejemplo                | Origen       | Destino de Merge |  
+|---------------|--------------------------|------------------------|--------------|-------------------|  
+| **Feature**   | `feature/<nombre>`       | `feature/eda`          | `dev`        | `dev`            |  
+| **Hotfix**    | `hotfix/<descripción>`   | `hotfix/login-error`   | `main`       | `main` + `dev`   |  
+
+
+### **📌 Reglas Clave**  
+1. **Prefixes obligatorios**: Usar siempre `feature/`, `hotfix/`, etc.  
+2. **Nombres descriptivos**: En inglés y en minúsculas, separados por guiones (`feature/user-authentication`).  
+3. **Protección de ramas**:  
+   - `main` y `test` están protegidas (requieren **PR** y aprobación).  
+   - `dev` acepta merges directos desde features.  
+
+
+### **💡 Buenas Prácticas**  
+- **Sincronizar antes de crear ramas**:  
+  ```bash
+  git fetch --all && git pull origin dev
+  ```  
+
+---
+
 ## 📂 Estructura del Proyecto (sugerida)
 ```markdown
 airbnb-data-analysis/
