@@ -2,9 +2,12 @@ from fastapi import FastAPI, HTTPException, Depends, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, validator
 from typing import List, Optional, Dict, Any
+import database  # Añade esta importación
 from database import (
     get_one_user, create_user, update_user, delete_user,
-    save_search, get_user_searches
+    save_search, get_user_searches, get_all_neighborhoods,
+    # Elimina estas importaciones para evitar confusiones
+    # get_beds, get_accommodates, get_bathrooms
 )
 
 app = FastAPI(
@@ -136,3 +139,30 @@ async def get_searches_endpoint(username: str):
     searches = await get_user_searches(username)
     return searches
     
+# Rutas de barrios
+@app.get('/api/neighborhoods', response_model=List[Dict[str, Any]])
+async def get_neighborhoods():
+    """
+    Obtiene todos los barrios disponibles en la base de datos.
+    
+    Returns:
+        List[Dict[str, Any]]: Lista de barrios con sus códigos correspondientes
+    """
+    neighborhoods = await get_all_neighborhoods()
+    return neighborhoods
+
+# Nuevas rutas para filtros - Elimina la primera definición y mantén solo estas
+@app.get('/api/beds', response_model=List[float])
+async def get_beds_endpoint():
+    beds = await database.get_beds()  # Usa el nombre completo del módulo
+    return beds
+
+@app.get('/api/accommodates', response_model=List[float])
+async def get_accommodates_endpoint():
+    accommodates = await database.get_accommodates()
+    return accommodates
+
+@app.get('/api/bathrooms', response_model=List[float])
+async def get_bathrooms_endpoint():
+    bathrooms = await database.get_bathrooms()
+    return bathrooms
