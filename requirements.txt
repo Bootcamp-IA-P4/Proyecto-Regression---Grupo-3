@@ -24,7 +24,7 @@ fastjsonschema==2.21.1
 fonttools==4.57.0
 fqdn==1.5.1
 git-filter-repo==2.47.0
-h11==0.14.0
+h11==0.16.0
 httpcore==1.0.8
 httpx==0.28.1
 idna==3.10
