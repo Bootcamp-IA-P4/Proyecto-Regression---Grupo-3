@@ -98,4 +98,10 @@ with open(model_dir / "scaler.pkl", 'wb') as f:
 with open(model_dir / "feature_columns.pkl", 'wb') as f:
     pickle.dump(list(X_train.columns), f)  # Lista de columnas en orden correcto
 
+# Imprimir nombres de columnas guardadas en el archivo feature_columns.pkl
+import pickle
+with open("models/feature_columns.pkl", "rb") as f:
+    columns = pickle.load(f)
+print("Columnas guardadas:", columns)
+
 print(f"\n✅ Modelo, scaler y columnas guardados en: {model_dir}/")
