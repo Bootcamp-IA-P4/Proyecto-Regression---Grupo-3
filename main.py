@@ -2,6 +2,8 @@ from fastapi import FastAPI, HTTPException, Depends, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr, validator
 from typing import List, Optional, Dict, Any
+import pickle
+import numpy as np
 import database  # Añade esta importación
 from database import (
     get_one_user, create_user, update_user, delete_user,
@@ -166,3 +168,65 @@ async def get_accommodates_endpoint():
 async def get_bathrooms_endpoint():
     bathrooms = await database.get_bathrooms()
     return bathrooms
+
+#----------------------------------------------------------------------
+
+with open('pkl/modelo_xgboost_combinado.pkl', 'rb') as file:
+    model = pickle.load(file)
+
+
+class PredictionInput(BaseModel):
+    neighborhood: str
+    room_type: str
+    accommodates: int
+    bathrooms: float
+    beds: int
+    minimum_nights: int
+    number_of_reviews: int
+
+
+@app.post('/api/predict')
+async def predict_price(input_data: PredictionInput):
+    """
+    Realiza una predicción del precio de Airbnb basado en las características proporcionadas.
+    """
+    try:
+        # Preparar los datos para el modelo
+        features = np.array([[
+            input_data.accommodates,
+            input_data.bathrooms,
+            input_data.beds,
+            input_data.minimum_nights,
+            input_data.number_of_reviews,
+            # Aquí deberías añadir el encoding one-hot para neighborhood y room_type
+            # Por simplicidad, asumimos que el modelo espera estos valores numéricos
+        ]])
+        
+        # Realizar la predicción
+        prediction = model.predict(features)
+        
+        # Devolver el resultado
+        return {
+            "predicted_price": float(prediction[0]),
+            "currency": "EUR",
+            "input_features": input_data.dict()
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Error al realizar la predicción: {str(e)}"
+        )
+
+
+@app.get('/api/room-types', response_model=List[str])
+async def get_room_types():
+    """
+    Obtiene los tipos de habitación disponibles para la predicción.
+    """
+    return [
+        "Entire home/apt",
+        "Private room",
+        "Shared room",
+        "Hotel room"
+    ]
+
