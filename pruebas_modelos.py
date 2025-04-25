@@ -287,3 +287,25 @@ print(f"MSE: {mse_comb:.2f}")
 print(f"RMSE: {rmse_comb:.2f}")
 print(f"MAE: {mae_comb:.2f}")
 print(f"R²: {r2_comb:.2f}")
+
+# ... existing code ...
+
+# Guardar el modelo combinado (el mejor) como archivo .pkl
+import pickle
+
+# Definir el nombre del archivo
+model_filename = 'modelo_xgboost_combinado.pkl'
+
+# Guardar el modelo
+print(f"\nGuardando el modelo en {model_filename}...")
+with open(model_filename, 'wb') as file:
+    pickle.dump(xgb_pipeline_comb, file)
+
+print(f"Modelo guardado exitosamente en {model_filename}")
+
+# Ejemplo de cómo cargar el modelo para hacer predicciones
+print("\nEjemplo de cómo cargar y usar el modelo guardado:")
+print("with open('modelo_xgboost_combinado.pkl', 'rb') as file:")
+print("    modelo_cargado = pickle.load(file)")
+print("# Hacer predicciones")
+print("predicciones = modelo_cargado.predict(X_test_comb)")
