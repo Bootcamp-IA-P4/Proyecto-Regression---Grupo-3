@@ -177,6 +177,6 @@ cython_debug/
 artifacts/random_forest_v5.pkl
 
 # Compressed
-models/*.zip
+artifacts/*.zip
 
 
