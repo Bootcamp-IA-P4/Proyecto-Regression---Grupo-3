@@ -39,7 +39,7 @@ Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb me
 | Backend        | [FastAPI](https://fastapi.tiangolo.com/)          |
 | Base de datos  | [MongoDB](https://www.mongodb.com/)               |
 | Frontend       | [React](https://reactjs.org/) + [Chart.js](https://www.chartjs.org/) o [Recharts](https://recharts.org/en-US/) |
-| Ciencia de Datos | [Python](https://www.python.org/), [Pandas](https://pandas.pydata.org/), [Scikit-learn](https://scikit-learn.org/), [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/), [Google Colab](https://colab.research.google.com/) |
+| Ciencia de Datos | [Python](https://www.python.org/), [Pandas](https://pandas.pydata.org/), [Scikit-learn](https://scikit-learn.org/), [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/), [Google Colab](https://colab.research.google.com/) | [XGBoost](https://xgboost.ai) | 
 | Colaboración   | [GitHub](https://github.com/), [GitHub Projects](https://github.com/features/project-management) |
 
 ---
