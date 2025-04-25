@@ -290,7 +290,54 @@ print(f"R²: {r2_comb:.2f}")
 
 # ... existing code ...
 
-# Guardar el modelo combinado (el mejor) como archivo .pkl
+# Después de entrenar el modelo combinado (xgb_pipeline_comb)
+print("\nEvaluando overfitting del modelo combinado...")
+
+# Métricas en datos de entrenamiento
+y_train_pred_log = xgb_pipeline_comb.predict(X_train_comb)
+y_train_pred = np.expm1(y_train_pred_log)
+y_train_original = np.expm1(y_train_comb_log)
+
+train_mse = mean_squared_error(y_train_original, y_train_pred)
+train_rmse = np.sqrt(train_mse)
+train_r2 = r2_score(y_train_original, y_train_pred)
+train_mae = mean_absolute_error(y_train_original, y_train_pred)
+
+print("\nMétricas en datos de entrenamiento:")
+print(f"RMSE: {train_rmse:.2f}")
+print(f"MAE: {train_mae:.2f}")
+print(f"R²: {train_r2:.2f}")
+
+print("\nMétricas en datos de prueba:")
+print(f"RMSE: {rmse_comb:.2f}")
+print(f"MAE: {mae_comb:.2f}")
+print(f"R²: {r2_comb:.2f}")
+
+# Calcular diferencias porcentuales
+rmse_diff = ((rmse_comb - train_rmse) / train_rmse) * 100
+mae_diff = ((mae_comb - train_mae) / train_mae) * 100
+r2_diff = ((train_r2 - r2_comb) / train_r2) * 100
+
+print("\nDiferencias porcentuales (prueba vs entrenamiento):")
+print(f"Diferencia RMSE: {rmse_diff:.2f}%")
+print(f"Diferencia MAE: {mae_diff:.2f}%")
+print(f"Diferencia R²: {r2_diff:.2f}%")
+
+# Validación cruzada para una evaluación más robusta
+cv_scores = cross_val_score(
+    xgb_pipeline_comb,
+    X_combined,
+    y_combined_log,
+    cv=5,
+    scoring='neg_mean_squared_error'
+)
+
+cv_rmse_scores = np.sqrt(-cv_scores)
+print(f"\nRMSE en validación cruzada: {cv_rmse_scores.mean():.2f} ± {cv_rmse_scores.std():.2f}")
+
+# ... existing code ...
+
+'''# Guardar el modelo combinado (el mejor) como archivo .pkl
 import pickle
 
 # Definir el nombre del archivo
@@ -308,4 +355,4 @@ print("\nEjemplo de cómo cargar y usar el modelo guardado:")
 print("with open('modelo_xgboost_combinado.pkl', 'rb') as file:")
 print("    modelo_cargado = pickle.load(file)")
 print("# Hacer predicciones")
-print("predicciones = modelo_cargado.predict(X_test_comb)")
+print("predicciones = modelo_cargado.predict(X_test_comb)")'''
