@@ -103,3 +103,29 @@ async def get_bathrooms():
     cursor = await db.listings_pre.distinct("bathrooms_numeric")
     unique_bathrooms = sorted(cursor)
     return unique_bathrooms
+
+
+async def get_neighbourhood_value(neighborhood):
+    """
+    Convierte el nombre del barrio a un valor numérico para el modelo.
+    
+    Args:
+        neighborhood: Nombre del barrio
+        
+    Returns:
+        int: Valor numérico del barrio
+    """
+    # Implementar la lógica para convertir el nombre del barrio a un valor numérico
+    # Esto podría ser una consulta a una base de datos o un diccionario predefinido
+    neighborhood_mapping = {
+        # Mapeo de barrios a valores numéricos
+        "Centro": 128,
+        "Salamanca": 200,
+        # Añadir más barrios según sea necesario
+    }
+    return neighborhood_mapping.get(neighborhood, 128)  # Valor predeterminado
+
+async def get_average_price(neighborhood):
+    """Obtiene el precio medio actual para un barrio"""
+    # Implementar lógica para obtener el precio medio actual
+    return 85.0  # Valor de ejemplo

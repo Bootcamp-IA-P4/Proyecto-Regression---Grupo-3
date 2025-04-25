@@ -166,3 +166,105 @@ async def get_accommodates_endpoint():
 async def get_bathrooms_endpoint():
     bathrooms = await database.get_bathrooms()
     return bathrooms
+
+# Importar la función predict_price
+from predict_price import predict_price
+
+# Modelo para la respuesta de análisis
+class AnalysisResponse(BaseModel):
+    averagePrice: float
+    predictedPrice: float
+    modelPredictions: Dict[str, float]
+    roomTypeDistribution: Optional[Dict[str, int]] = None
+    priceRange: Optional[Dict[str, float]] = None
+    popularAmenities: Optional[List[str]] = None
+    occupancyRate: Optional[float] = None
+
+@app.get('/api/analysis/{neighborhood}', response_model=AnalysisResponse)
+async def get_analysis(
+    neighborhood: str,
+    beds: Optional[int] = None,
+    bathrooms: Optional[float] = None,
+    accommodates: Optional[int] = None,
+    roomType: Optional[str] = None
+):
+
+    # Mapear el tipo de habitación del frontend al formato esperado por el modelo
+    room_type_mapping = {
+        'entire_home': 'Entire home/apt',
+        'private_room': 'Private room',
+        'shared_room': 'Shared room',
+        'hotel_room': 'Hotel room'
+    }
+    
+    room_type = room_type_mapping.get(roomType, 'Entire home/apt')
+    
+    # Convertir el nombre del barrio a un valor numérico
+    neighbourhood_val = await database.get_neighbourhood_value(neighborhood)
+    
+    # Valores predeterminados si no se proporcionan
+    beds_value = beds if beds is not None else 1
+    bathrooms_value = bathrooms if bathrooms is not None else 1.0
+    accommodates_value = accommodates if accommodates is not None else 2
+    
+    # Obtener predicciones
+    model_predictions = predict_price(
+        accommodates=accommodates_value,
+        bathrooms=bathrooms_value,
+        beds=beds_value,
+        room_type=room_type,
+        neighbourhood_val=neighbourhood_val
+    )
+    
+    # Calcular el promedio de las predicciones válidas
+    valid_predictions = [p for p in model_predictions.values() if p is not None]
+    avg_prediction = sum(valid_predictions) / len(valid_predictions) if valid_predictions else 0
+    
+    # Añadir el promedio a las predicciones
+    model_predictions['average'] = round(avg_prediction, 2)
+    
+    # Obtener datos adicionales del barrio
+    avg_price = await database.get_average_price(neighborhood)
+    
+    # Construir respuesta
+    response = {
+        'averagePrice': avg_price,
+        'predictedPrice': model_predictions['average'],
+        'modelPredictions': model_predictions,
+    }
+    
+    return response
+
+# Modelo para los datos de entrada de predicción
+class PredictionInput(BaseModel):
+    accommodates: int
+    bathrooms: float
+    beds: int
+    room_type: str
+    neighbourhood_val: float
+
+# Modelo para la respuesta de predicción
+class PredictionResponse(BaseModel):
+    random_forest: float
+    xgboost: float
+    average: float
+
+@app.post('/api/predict', response_model=PredictionResponse)
+async def predict_price_endpoint(prediction_data: PredictionInput):
+    # Llamar a la función de predicción con los parámetros recibidos
+    predictions = predict_price(
+        accommodates=prediction_data.accommodates,
+        bathrooms=prediction_data.bathrooms,
+        beds=prediction_data.beds,
+        room_type=prediction_data.room_type,
+        neighbourhood_val=prediction_data.neighbourhood_val
+    )
+    
+    # Calcular el promedio de las predicciones válidas
+    valid_predictions = [p for p in predictions.values() if p is not None]
+    avg_prediction = sum(valid_predictions) / len(valid_predictions) if valid_predictions else 0
+    
+    # Añadir el promedio a las predicciones
+    predictions['average'] = round(avg_prediction, 2)
+    
+    return predictions
