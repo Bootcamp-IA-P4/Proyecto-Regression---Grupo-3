@@ -23,6 +23,7 @@ executing==2.2.0
 fastjsonschema==2.21.1
 fonttools==4.57.0
 fqdn==1.5.1
+git-filter-repo==2.47.0
 h11==0.14.0
 httpcore==1.0.8
 httpx==0.28.1
@@ -60,6 +61,7 @@ nbformat==5.10.4
 nest-asyncio==1.6.0
 notebook-shim==0.2.4
 numpy==2.2.4
+nvidia-nccl-cu12==2.26.2.post1
 overrides==7.7.0
 packaging==24.2
 pandas==2.2.3
@@ -112,3 +114,4 @@ wcwidth==0.2.13
 webcolors==24.11.1
 webencodings==0.5.1
 websocket-client==1.8.0
+xgboost==3.0.0
