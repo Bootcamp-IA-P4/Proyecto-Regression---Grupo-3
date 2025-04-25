@@ -173,5 +173,8 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 
-# pickle files
+# Pickle files
 models/*.pkl
+
+# Compressed
+models/*.zip
