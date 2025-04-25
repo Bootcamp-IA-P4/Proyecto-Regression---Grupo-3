@@ -6,6 +6,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
+from rf_pipeline import FeatureEngineering
 
 def load_models():
     """
@@ -20,15 +21,9 @@ def load_models():
     """
     models = {}
     try:
-        models['linear'] = joblib.load('models/pkls/linear_model.pkl')
-        models['tree'] = joblib.load('models/pkls/tree_model.pkl')
-        models['forest'] = joblib.load('models/pkls/forest_model.pkl')
-        models['xgboost'] = joblib.load('models/pkls/xgb_model.pkl')
-        models['lightgbm'] = joblib.load('models/pkls/lgbm_model.pkl')
-        models['catboost'] = joblib.load('models/pkls/catboost_model.pkl')
-        models['stacking'] = joblib.load('models/pkls/stacking_model.pkl')
+        models['forest'] = joblib.load('pkls/rf_pipeline_model_finall.joblib')
     except Exception as e:
-        print(f"Error loading models: {e}")
+        print(f"Error loading model: {e}")
         return None
     return models
 
@@ -46,9 +41,9 @@ def get_user_input():
     print("\n=== Введите данные для предсказания цены / Enter data for price prediction / Introduzca datos para predecir el precio ===")
     
     # Получение числовых характеристик / Getting numeric features / Obtención de características numéricas
-    accommodates = int(input("Введите количество гостей / Enter number of guests / Введите количество гостей: "))
-    bathrooms = float(input("Введите количество ванных комнат / Enter number of bathrooms / Введите количество ванных комнат: "))
-    beds = int(input("Введите количество кроватей / Enter number of beds / Введите количество кроватей: "))
+    accommodates = int(input("Введите количество гостей / Enter number of guests / Introduzca el número de invitados: "))
+    bathrooms = float(input("Введите количество ванных комнат / Enter number of bathrooms / Introduzca el número de baños: "))
+    beds = int(input("Введите количество кроватей / Enter number of beds / Introduzca el número de camas: "))
     
     # Получение категориальных характеристик / Getting categorical features / Obtención de características categóricas
     print("\nВыберите тип жилья / Select room type / Seleccione el tipo de alojamiento:")
@@ -66,13 +61,20 @@ def get_user_input():
     }
     room_type = room_types.get(room_type_choice, 'Entire home/apt')
     
-    # Создание DataFrame с входными данными / Creating DataFrame with input data / Crear un DataFrame con datos de entrada
+    # Запрос района / Getting neighbourhood / Solicitud de barrio
+    print("\nВведите значение района (от 0 до 255) / Enter neighbourhood value (0-255) / Introduzca el valor del área (0-255):")
+    neighbourhood_val = float(input("Значение района / Neighbourhood value / La importancia de la zona: "))
+    
+    # Создание DataFrame с входными данными / Creating DataFrame with input data / Создание DataFrame с входными данными
     input_data = pd.DataFrame({
         'accommodates': [accommodates],
         'bathrooms_numeric': [bathrooms],
         'beds': [beds],
-        'room_type': [room_type],
-        'neighbourhood_encoded': [0]  # Значение по умолчанию / Default value / Valor predeterminado
+        'room_type_Entire home/apt': [1 if room_type == 'Entire home/apt' else 0],
+        'room_type_Hotel room': [1 if room_type == 'Hotel room' else 0],
+        'room_type_Private room': [1 if room_type == 'Private room' else 0],
+        'room_type_Shared room': [1 if room_type == 'Shared room' else 0],
+        'neighbourhood_encoded': [neighbourhood_val]
     })
     
     return input_data
@@ -111,23 +113,57 @@ def display_predictions(predictions):
     """
     Отображает предсказания всех моделей
     Displays predictions from all models
-    Muestra predicciones de todos los modelos.
+    Отображает предсказания всех моделей
     
     Parámetros / Parameters / Параметры:
     predictions: словарь с предсказаниями
                 dictionary with predictions
-                diccionario con predicciones
+                словарь с предсказаниями
     """
     print("\n=== Результаты предсказаний / Prediction results / Resultados de la predicción ===")
     for model_name, pred in predictions.items():
         if pred is not None:
             print(f"{model_name.capitalize()}: ${pred:.2f}")
     
-    # Вычисление среднего предсказания / Calculating average prediction / Calcular la predicción media
+    # Вычисление среднего предсказания / Calculating average prediction / Вычисление среднего предсказания
     valid_predictions = [p for p in predictions.values() if p is not None]
     if valid_predictions:
         avg_pred = sum(valid_predictions) / len(valid_predictions)
-        print(f"\nСреднее предсказание / Average prediction / Predicción promedio: ${avg_pred:.2f}")
+        #print(f"\nСреднее предсказание / Average prediction / Predicción promedio: ${avg_pred:.2f}")
+
+def predict_price(accommodates, bathrooms, beds, room_type, neighbourhood_val):
+    """Предсказание цены с использованием обеих моделей"""
+    
+    # Загрузка моделей из папки pkls
+    rf_pipeline = joblib.load('models/pkls/rf_pipeline_model_finall.joblib')
+    xgb_pipeline = joblib.load('models/pkls/xgb_pipeline_model_final.joblib')
+    
+    # Предсказание с использованием Random Forest
+    rf_price = predict_price_rf(rf_pipeline, **{
+        'accommodates': accommodates,
+        'bathrooms': bathrooms,
+        'beds': beds,
+        'room_type': room_type,
+        'neighbourhood_val': neighbourhood_val
+    })
+    
+    # Предсказание с использованием XGBoost
+    xgb_price = predict_price_xgb(xgb_pipeline, **{
+        'accommodates': accommodates,
+        'bathrooms': bathrooms,
+        'beds': beds,
+        'room_type': room_type,
+        'neighbourhood_val': neighbourhood_val
+    })
+    
+    # Вычисление среднего предсказания
+    avg_price = (rf_price + xgb_price) / 2
+    
+    return {
+        'random_forest': rf_price,
+        'xgboost': xgb_price,
+        'average': avg_price
+    }
 
 def main():
     """
