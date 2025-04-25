@@ -24,7 +24,7 @@ fastapi-users==14.0.1
 fastapi-users-db-beanie==4.0.0
 fonttools==4.57.0
 greenlet==3.2.1
-h11==0.14.0
+h11>=0.16.0
 idna==3.10
 ipykernel==6.29.5
 ipython==9.1.0
