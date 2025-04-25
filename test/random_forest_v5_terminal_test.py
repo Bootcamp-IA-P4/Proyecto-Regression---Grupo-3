@@ -7,9 +7,9 @@ import json
 
 # --- Configuración de paths ---
 PROJECT_ROOT = Path(__file__).parent.parent  # Ajusta según tu estructura
-MODEL_PATH = PROJECT_ROOT / "models" / "random_forest_v5.pkl"
-SCALER_PATH = PROJECT_ROOT / "models" / "scaler.pkl"
-FEATURE_COLUMNS_PATH = PROJECT_ROOT / "models" / "feature_columns.pkl"
+MODEL_PATH = PROJECT_ROOT / "artifacts" / "random_forest_v5.pkl"
+SCALER_PATH = PROJECT_ROOT / "artifacts" / "scaler.pkl"
+FEATURE_COLUMNS_PATH = PROJECT_ROOT / "artifacts" / "feature_columns.pkl"
 
 def load_artifacts():
     """Cargar modelo, scaler y columnas desde archivos .pkl"""

@@ -40,8 +40,8 @@ from pathlib import Path
 
 # --- Configuración de paths ---
 processed_data_dir = Path("data/processed/")
-model_dir = Path("models/")
-model_dir.mkdir(parents=True, exist_ok=True)  # Crear directorio si no existe
+artifacts_dir = Path("artifacts/")
+artifacts_dir.mkdir(parents=True, exist_ok=True)  # Crear directorio si no existe
 
 # --- 1. Cargar datos procesados ---
 df_optimized = pd.read_csv(processed_data_dir / "df_optimized.csv")
@@ -88,14 +88,14 @@ print_metrics(y_train, y_pred_train, "ENTRENAMIENTO")
 print_metrics(y_test, y_pred_test, "PRUEBA")
 
 # --- 8. Guardar modelo y scaler en pickle ---
-with open(model_dir / "random_forest_v5.pkl", 'wb') as f:
+with open(artifacts_dir / "random_forest_v5.pkl", 'wb') as f:
     pickle.dump(random_forest_v5, f)
 
-with open(model_dir / "scaler.pkl", 'wb') as f:
+with open(artifacts_dir / "scaler.pkl", 'wb') as f:
     pickle.dump(scaler, f)
 
 # Guardar nombres de columnas (¡NUEVO!)
-with open(model_dir / "feature_columns.pkl", 'wb') as f:
+with open(artifacts_dir / "feature_columns.pkl", 'wb') as f:
     pickle.dump(list(X_train.columns), f)  # Lista de columnas en orden correcto
 
 # Imprimir nombres de columnas guardadas en el archivo feature_columns.pkl
@@ -104,4 +104,4 @@ with open("models/feature_columns.pkl", "rb") as f:
     columns = pickle.load(f)
 print("Columnas guardadas:", columns)
 
-print(f"\n✅ Modelo, scaler y columnas guardados en: {model_dir}/")
+print(f"\n✅ Modelo, scaler y columnas guardados en: {artifacts_dir}/")

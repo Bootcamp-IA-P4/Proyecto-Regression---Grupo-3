@@ -7,9 +7,9 @@ import random
 
 # --- Configuración de paths ---
 PROJECT_ROOT = Path(__file__).parent.parent  # Ajusta según tu estructura
-MODEL_PATH = PROJECT_ROOT / "models" / "random_forest_v5.pkl"
-SCALER_PATH = PROJECT_ROOT / "models" / "scaler.pkl"
-FEATURE_COLUMNS_PATH = PROJECT_ROOT / "models" / "feature_columns.pkl"
+MODEL_PATH = PROJECT_ROOT / "artifacts" / "random_forest_v5.pkl"
+SCALER_PATH = PROJECT_ROOT / "artifacts" / "scaler.pkl"
+FEATURE_COLUMNS_PATH = PROJECT_ROOT / "artifacts" / "feature_columns.pkl"
 DATA_PATH = PROJECT_ROOT / "data" / "processed" / "df_optimized.csv"  # CSV original
 
 def load_artifacts():
@@ -66,5 +66,5 @@ if __name__ == "__main__":
         print(f"\n🏠 Predicción {i+1}: ${price:.2f} EUR")
 
     # --- Opcional: Exportar datos de prueba a CSV ---
-    X_test_random.to_csv(PROJECT_ROOT / "data" / "test_samples.csv", index=False)
+    X_test_random.to_csv(PROJECT_ROOT / "data" / "processed" / "test_samples.csv", index=False)
     print("\n💾 Datos guardados en 'data/test_samples.csv'")
