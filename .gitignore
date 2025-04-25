@@ -174,3 +174,7 @@ cython_debug/
 .pypirc
 .env.example
 pkls/rf_pipeline_model_finall.joblib
+
+# artifacts files pkl
+artifacts/random_forest_v5.pkl
+artifacts/random_forest_v5.pickle

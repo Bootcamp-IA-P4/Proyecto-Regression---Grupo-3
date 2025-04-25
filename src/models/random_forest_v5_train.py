@@ -100,8 +100,12 @@ with open(artifacts_dir / "feature_columns.pkl", 'wb') as f:
 
 # Imprimir nombres de columnas guardadas en el archivo feature_columns.pkl
 import pickle
-with open("models/feature_columns.pkl", "rb") as f:
+with open(artifacts_dir / "feature_columns.pkl", "rb") as f:
     columns = pickle.load(f)
-print("Columnas guardadas:", columns)
+    
+# Imprimir número de columnas guardadas
+print(f"\nNúmero de columnas guardadas: {len(columns)}")
+# Imprimir nombres de columnas guardadas
+print("\nColumnas guardadas:", columns)
 
 print(f"\n✅ Modelo, scaler y columnas guardados en: {artifacts_dir}/")
