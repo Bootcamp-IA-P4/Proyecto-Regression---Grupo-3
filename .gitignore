@@ -172,3 +172,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+.env.example
+pkls/rf_pipeline_model_finall.joblib
+
+rf_pipeline_model_finall.joblib
