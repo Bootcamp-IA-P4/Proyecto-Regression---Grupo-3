@@ -25,9 +25,6 @@ async def get_one_user(username: str):
     return user
     
 async def create_user(username: str, email: str, password: str):
-    # En un entorno de producción, deberías usar una biblioteca como passlib para el hash
-    # Por ejemplo: hashed_password = pwd_context.hash(password)
-    # Por simplicidad, usamos un enfoque básico aquí
     import hashlib
     hashed_password = hashlib.sha256(password.encode()).hexdigest()
     
