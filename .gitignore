@@ -174,7 +174,9 @@ cython_debug/
 .pypirc
 
 # Pickle files
-models/*.pkl
+artifacts/random_forest_v5.pkl
 
 # Compressed
 models/*.zip
+
+
