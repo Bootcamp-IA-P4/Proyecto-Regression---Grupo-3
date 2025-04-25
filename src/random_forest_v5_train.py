@@ -94,4 +94,8 @@ with open(model_dir / "random_forest_v5.pkl", 'wb') as f:
 with open(model_dir / "scaler.pkl", 'wb') as f:
     pickle.dump(scaler, f)
 
-print(f"\n✅ Modelo y scaler guardados en: {model_dir}/")
+# Guardar nombres de columnas (¡NUEVO!)
+with open(model_dir / "feature_columns.pkl", 'wb') as f:
+    pickle.dump(list(X_train.columns), f)  # Lista de columnas en orden correcto
+
+print(f"\n✅ Modelo, scaler y columnas guardados en: {model_dir}/")
