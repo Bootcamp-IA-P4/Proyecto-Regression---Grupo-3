@@ -19,7 +19,9 @@ app = FastAPI(
 # Configuración de CORS para permitir solicitudes desde el frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:5174"],  # Orígenes del frontend
+    allow_origins=["http://localhost:5173", 
+                    "http://localhost:5174", 
+                    "https://proyecto-regression-g3-front.vercel.app"],  # Orígenes del frontend
     allow_credentials=True,
     allow_methods=["*"],  # Permitir todos los métodos HTTP
     allow_headers=["*"],  # Permitir todos los headers
