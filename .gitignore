@@ -177,9 +177,15 @@ pkls/rf_pipeline_model_finall.joblib
 
 # pkl artifacts
 # artifacts
+artifacts/*.pkl
+artifacts/*.pickle
 artifacts/random_forest_v5.pkl
 artifacts/random_forest_v5.pickle
 
 # pkl checkpoints
 checkpoints/*.pkl
 checkpoints/*.pickel
+
+# pkl models
+models/*.pkl
+models/*.pickle
