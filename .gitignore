@@ -175,4 +175,11 @@ cython_debug/
 .env.example
 pkls/rf_pipeline_model_finall.joblib
 
-rf_pipeline_model_finall.joblib
+# pkl artifacts
+# artifacts
+artifacts/random_forest_v5.pkl
+artifacts/random_forest_v5.pickle
+
+# pkl checkpoints
+checkpoints/*.pkl
+checkpoints/*.pickel
