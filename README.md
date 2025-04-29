@@ -30,6 +30,7 @@ Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb me
 | Aplicación Web         | Dashboard con gráficos interactivos, tablas, y exploración de los datos.    |
 | Repositorio GitHub     | Código fuente bien documentado y organizado.                                |
 
+ 🔗[Informe Ejecutivo](https://www.canva.com/design/DAGl5v3xm0s/aSIV3U3P63tLikwLQYJfmw/view?utm_content=DAGl5v3xm0s&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=h445fd81805)
 ---
 
 ## 🧰 Stack Tecnológico
