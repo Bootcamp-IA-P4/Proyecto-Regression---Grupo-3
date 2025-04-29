@@ -6,7 +6,7 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
-from rf_pipeline import FeatureEngineering
+from rf_pipeline import FeatureEngineering, predict_price_rf
 
 def load_models():
     """

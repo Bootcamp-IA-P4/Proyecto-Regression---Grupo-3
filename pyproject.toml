@@ -4,6 +4,7 @@ version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
     "black>=25.1.0",
+    "fastapi>=0.115.12",
     "h11>=0.16.0",
     "ipykernel>=6.29.5",
     "isort>=6.0.1",
@@ -11,7 +12,9 @@ dependencies = [
     "jupytext>=1.17.1",
     "matplotlib>=3.10.1",
     "numpy>=2.2.4",
+    "optuna>=4.3.0",
     "pandas>=2.2.3",
+    "pymongo>=4.12.0",
     "scikit-learn>=1.6.1",
     "seaborn>=0.13.2",
 ]
