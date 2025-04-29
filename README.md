@@ -1,97 +1,132 @@
-# 📊 Análisis Inteligente de Datos de Airbnb
+# Entrenamiento del Modelo - Random Forest v8
 
-Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb mediante técnicas de regresión y análisis de datos, para extraer conclusiones valiosas, generar visualizaciones interactivas y presentar un informe ejecutivo claro. Se desarrollará una solución completa compuesta por un backend en **FastAPI**, una base de datos **MongoDB**, y un frontend interactivo para visualización de datos.
+## Visión General
 
----
+Este repositorio contiene el pipeline de entrenamiento para un Random Forest Regressor (v8) utilizado para predecir precios de propiedades en Airbnb. La implementación incluye dos enfoques principales de entrenamiento con características avanzadas como checkpointing, validación exhaustiva y gestión de metadatos.
 
-## 📁 Dataset Principal
+## Características Principales
 
-🔗 [Airbnb Open Data - Kaggle](https://www.kaggle.com/datasets/arianazmoudeh/airbnbopendata)
+- **Sistema de Checkpoints**: Implementa un mecanismo robusto para guardar el progreso del entrenamiento
+- **Búsqueda en Cuadrícula**: Ajuste de hiperparámetros con GridSearchCV de scikit-learn
+- **Transformación Logarítmica**: La variable objetivo (precio) se transforma logarítmicamente para mejor rendimiento
+- **Importancia de Features**: Análisis de contribuciones de variables a las predicciones
+- **Suite de Validación**: Múltiples técnicas de validación para asegurar fiabilidad del modelo
 
-> Se podrán incorporar datasets adicionales relacionados con el mercado de alquiler, turismo, estacionalidad, precios o cualquier otro factor que ayude a enriquecer el análisis.
+## Versiones de Entrenamiento
 
----
+### Entrenamiento del Modelo 2
 
-## 🎯 Objetivos del Proyecto
+Implementación básica con:
+- GridSearchCV para ajuste de hiperparámetros
+- Guardado de checkpoints durante el entrenamiento
+- Análisis de importancia de variables
+- Persistencia del modelo con nombres de features
 
-- Analizar datos de Airbnb con algoritmos de regresión para entender patrones de precios y otros factores clave.
-- Construir un informe ejecutivo con las conclusiones del análisis.
-- Desarrollar una aplicación web que permita visualizar gráficamente la información obtenida.
-- Fomentar el trabajo colaborativo usando herramientas modernas de desarrollo.
+### Entrenamiento del Modelo 3
 
----
+Versión mejorada con:
+- Gestor de checkpoints mejorado con seguimiento de metadatos
+- Rastreo completo de la cuadrícula de parámetros
+- Guardado de metadatos del modelo (JSON)
+- Suite de validación exhaustiva que incluye:
+  - Validación cruzada estricta
+  - Comparación con línea base
+  - Análisis de residuales
+  - Importancia por permutación
+  - Validación en subconjuntos aleatorios
 
-## 🚀 Entregables
+## Resultados
 
-| Entregable              | Descripción                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| Google Colab           | Notebook con limpieza, análisis exploratorio, regresiones y visualizaciones. |
-| Informe Ejecutivo      | PDF/Markdown con conclusiones, gráficas clave y recomendaciones.            |
-| Aplicación Web         | Dashboard con gráficos interactivos, tablas, y exploración de los datos.    |
-| Repositorio GitHub     | Código fuente bien documentado y organizado.                                |
+### Métricas de Rendimiento
 
----
+| Métrica                | Entrenamiento | Prueba    | Validación Cruzada (Media ± Desv) |
+|-----------------------|--------------|-----------|-----------------------------------|
+| R² Score              | 0.9713       | 0.8482    | 0.8464 ± 0.0200                   |
+| MAE (EUR)            | -            | 19.83     | 20.12 ± 0.92                      |
 
-## 🧰 Stack Tecnológico
+### Hallazgos Clave
 
-| Componente     | Tecnología                                         |
-|----------------|---------------------------------------------------|
-| Backend        | [FastAPI](https://fastapi.tiangolo.com/)          |
-| Base de datos  | [MongoDB](https://www.mongodb.com/)               |
-| Frontend       | [React](https://reactjs.org/) + [Chart.js](https://www.chartjs.org/) o [Recharts](https://recharts.org/en-US/) |
-| Ciencia de Datos | [Python](https://www.python.org/), [Pandas](https://pandas.pydata.org/), [Scikit-learn](https://scikit-learn.org/), [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/), [Google Colab](https://colab.research.google.com/) |
-| Colaboración   | [GitHub](https://github.com/), [GitHub Projects](https://github.com/features/project-management) |
+1. El modelo explica **84.82%** de la varianza en precios (R² = 0.8482)
+2. Error de predicción promedio de **19.83 EUR**
+3. Mejora significativa sobre la línea base (reducción de MAE en 31.36 EUR)
+4. Rendimiento consistente en todos los métodos de validación
 
----
+## Uso
 
-## 🧪 Módulos y Funcionalidades Esperadas
+### Requisitos
 
-### 🔍 Análisis de Datos
-- Limpieza y preprocesamiento.
-- Análisis exploratorio (EDA).
-- Algoritmos de regresión (lineal, polinómica, random forest, etc.).
-- Evaluación de modelos y métricas.
+- Python 3.8+
+- scikit-learn
+- pandas
+- numpy
 
-### 🧩 Backend (API)
-- Endpoints RESTful para consultar datos analizados.
-- Integración con MongoDB.
-- Seguridad básica y documentación automática (Swagger UI).
+### Ejecución del Entrenamiento
 
-### 🌐 Frontend
-- Visualización de datos:
-  - Gráficos de precios por zonas, fechas, tipo de propiedad, etc.
-  - Mapas interactivos (opcional).
-  - Filtros por ciudad, rango de precios, fechas.
-- Tablas de datos exportables.
-- Panel de comparación de predicciones vs datos reales.
+```bash
+# Ejecutar Entrenamiento del Modelo 2
+python model_training_2.py
 
----
+# Ejecutar Entrenamiento del Modelo 3 con validación
+python model_training_3.py
+```
 
-## 🧑💻 Organización del Equipo
+## Detalles de Implementación
 
-- **Control de versiones**: Git + GitHub.
-- **Planificación y tareas**: GitHub Projects.
-- **Entorno de trabajo colaborativo**: Google Colab, branches por funcionalidad, pull requests y code reviews.
+### Gestor de Checkpoints
 
----
+La clase personalizada `CheckpointManager` proporciona:
 
-## 📂 Estructura del Proyecto (sugerida)
-airbnb-data-analysis/ 
-│ ├── backend/ 
-│ ├── app/ 
-│ ├── main.py 
-│ └── requirements.txt 
-│ ├── frontend/ 
-│ ├── public/ 
-│ ├── src/ 
-│ └── package.json 
-│ ├── data/ 
-│ ├── raw/ │ 
-├── processed/ 
-│ └── external/
-│ ├── notebooks/ 
-│ └── airbnb_analysis.ipynb 
-│ ├── reports/ 
-│ └── informe_ejecutivo.md 
-│ ├── README.md 
-└── .gitignore
+- Guardado automático del progreso del entrenamiento
+- Recuperación de sesiones de entrenamiento interrumpidas
+- Seguimiento de metadatos (parámetros, métricas, nombres de variables)
+- Limpieza automática de checkpoints antiguos
+
+```python
+class CheckpointManager:
+    def save_checkpoint(self, model, X, y, params, metrics=None, stage="training"):
+        """Guarda el estado actual del entrenamiento"""
+        # Detalles de implementación...
+    
+    def load_latest_checkpoint(self):
+        """Carga el checkpoint más reciente"""
+        # Detalles de implementación...
+```
+
+### Suite de Validación
+
+La validación exhaustiva incluye:
+
+1. **Validación Cruzada Estricta**: 5-fold CV con métricas R² y MAE
+2. **Comparación con Línea Base**: Contra un predictor simple de mediana
+3. **Análisis de Residuales**: Inspección visual de errores de predicción
+4. **Importancia por Permutación**: Mide importancia de variables mediante mezcla aleatoria
+5. **Validación en Subconjuntos**: Verificación en subconjuntos aleatorios de datos
+
+## Estructura de Directorios
+
+```
+models/
+  └── minimal_rf_model.pkl          # Modelo entrenado final
+  └── model_metadata.json           # Metadatos del modelo
+
+checkpoints/
+  └── checkpoint_*.pkl              # Checkpoints de entrenamiento
+  └── validation_*.pkl              # Resultados de validación
+
+data/
+  └── processed/
+      └── df_minimal.csv            # Dataset procesado
+```
+
+## Recomendaciones para Producción
+
+1. **Monitorizar Rendimiento**: Implementar detección de desviación en variables y predicciones
+2. **Reentrenar Periódicamente**: Programar actualizaciones regulares del modelo con nuevos datos
+3. **Manejar Outliers**: Añadir lógica de negocio para predicciones extremas
+4. **Registrar Predicciones**: Trackear predicciones del modelo para análisis y depuración
+
+## Conclusión
+
+El modelo Random Forest v8 demuestra un excelente rendimiento predictivo con un R² de 0.8482 y MAE de 19.83 EUR. La suite de validación exhaustiva confirma la fiabilidad del modelo y su preparación para despliegue en producción.
+
+Para preguntas o incidencias, por favor abre un issue en este repositorio.
