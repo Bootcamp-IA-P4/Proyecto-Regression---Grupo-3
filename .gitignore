@@ -179,4 +179,30 @@ artifacts/random_forest_v5.pkl
 # Compressed
 artifacts/*.zip
 
+# Ignorar archivos de modelos ML en cualquier ubicación
+**/*.pkl
+**/*.pickle
+**/*.joblib
 
+# Dependencias
+frontend/**/node_modules/
+frontend/.pnp
+frontend/.pnp.js
+
+# Testing
+frontend/coverage
+
+# Producción
+frontend/build
+
+# Misc
+frontend/.DS_Store
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+
+# Debug logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
