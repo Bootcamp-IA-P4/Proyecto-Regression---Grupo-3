@@ -1,97 +1,147 @@
-# 📊 Análisis Inteligente de Datos de Airbnb
+# Airbnb Price Predictor - Backend/Frontend System
+## Random Forest Regressor v8
 
-Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb mediante técnicas de regresión y análisis de datos, para extraer conclusiones valiosas, generar visualizaciones interactivas y presentar un informe ejecutivo claro. Se desarrollará una solución completa compuesta por un backend en **FastAPI**, una base de datos **MongoDB**, y un frontend interactivo para visualización de datos.
+![Project Structure](https://i.imgur.com/example-image.png)
+
+## 📌 Descripción del Proyecto
+
+Sistema completo para predecir precios de propiedades en Airbnb (Madrid) dirigido a inversores inmobiliarios. Combina:
+
+- **Backend**: API REST con FastAPI y modelo Random Forest
+- **Frontend**: Interfaz React con validación avanzada
+- **Modelo ML**: Entrenado con 13 features clave
+
+## 🏗️ Estructura del Proyecto
+
+### Backend (`/backend`)
+```
+backend/
+├── models/
+│   ├── minimal_rf_model.pkl        # Modelo entrenado
+│   └── model_metadata.json         # Metadatos del modelo
+├── main.py                         # API FastAPI
+├── requirements.txt                # Dependencias
+└── test/                           # Pruebas unitarias
+```
+
+### Frontend (`/frontend`)
+```
+frontend/
+├── public/
+├── src/
+│   ├── components/
+│   │   └── PredictForm.jsx         # Componente principal
+│   ├── App.js
+│   └── index.js
+├── package.json
+└── README.md
+```
+
+## 🚀 Instalación y Ejecución
+
+### Backend
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+**API Docs**: http://localhost:8000/docs
+
+## 📷 Documentación Visual
+
+![FastAPI Swagger UI](https://raw.githubusercontent.com/Bootcamp-IA-P4/Proyecto-Regression---Grupo-3/feature/backend-rf-v8-deploy/imgs/fastapi.png)
+
+---
+### Frontend
+```bash
+cd frontend
+npm install
+npm start
+```
+**Aplicación**: http://localhost:3000
+
+## 🔍 Características Clave
+
+### Backend (FastAPI)
+✔ Validación estricta con Pydantic v2  
+✔ Endpoints:  
+- `POST /predict` - Recibe 13 features, devuelve precio predicho  
+- `GET /features` - Documentación de features esperadas  
+✔ CORS configurado  
+✔ Manejo de errores estructurado  
+
+### Frontend (React)
+✔ Formulario con validación en tiempo real  
+✔ Manejo de decimales (hasta 0.0001)  
+✔ Estados de carga/error  
+✔ Display de resultados formateados  
+
+## 📊 Modelo de Machine Learning
+- **Algoritmo**: Random Forest Regressor
+- **Features**:
+  ```python
+  ['accommodates', 'bathrooms', 'bedrooms', 'beds', 'minimum_nights',
+   'number_of_reviews', 'review_scores_rating', 'instant_bookable',
+   'neighbourhood_density', 'host_experience', 'room_type_Entire_home_apt',
+   'neighbourhood_encoded', 'amenity_score']
+  ```
+- **Preprocesamiento**: Transformación logarítmica del target
+
+## 🌟 Ejemplo de Uso
+1. Introducir datos de propiedad en el formulario
+2. Enviar para predicción
+3. Recibir precio estimado en euros
+
+![Demo](https://i.imgur.com/example-demo.gif)
+
+## 🤝 Contribución
+1. Haz fork del proyecto
+2. Crea tu rama (`git checkout -b feature/AmazingFeature`)
+3. Haz commit de tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Haz push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+Distribuido bajo licencia MIT. Ver `LICENSE` para más información.
+
+## ✉️ Contacto
+Equipo de Desarrollo - [email@example.com](mailto:email@example.com)
 
 ---
 
-## 📁 Dataset Principal
 
-🔗 [Airbnb Open Data - Kaggle](https://www.kaggle.com/datasets/arianazmoudeh/airbnbopendata)
+## 🛠️ Dependencias Principales
 
-> Se podrán incorporar datasets adicionales relacionados con el mercado de alquiler, turismo, estacionalidad, precios o cualquier otro factor que ayude a enriquecer el análisis.
+### Backend
+```python
+fastapi==0.109.1
+uvicorn==0.27.0
+pydantic==2.5.3
+scikit-learn==1.3.2
+numpy==1.26.4
+```
 
----
+### Frontend
+```json
+"react": "^18.2.0",
+"axios": "^1.6.2",
+"react-dom": "^18.2.0"
+```
 
-## 🎯 Objetivos del Proyecto
+## 🔗 Endpoints API
 
-- Analizar datos de Airbnb con algoritmos de regresión para entender patrones de precios y otros factores clave.
-- Construir un informe ejecutivo con las conclusiones del análisis.
-- Desarrollar una aplicación web que permita visualizar gráficamente la información obtenida.
-- Fomentar el trabajo colaborativo usando herramientas modernas de desarrollo.
+| Método | Endpoint    | Descripción                     |
+|--------|-------------|---------------------------------|
+| POST   | /predict    | Obtener predicción de precio    |
+| GET    | /features   | Lista de features requeridas    |
 
----
-
-## 🚀 Entregables
-
-| Entregable              | Descripción                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| Google Colab           | Notebook con limpieza, análisis exploratorio, regresiones y visualizaciones. |
-| Informe Ejecutivo      | PDF/Markdown con conclusiones, gráficas clave y recomendaciones.            |
-| Aplicación Web         | Dashboard con gráficos interactivos, tablas, y exploración de los datos.    |
-| Repositorio GitHub     | Código fuente bien documentado y organizado.                                |
-
----
-
-## 🧰 Stack Tecnológico
-
-| Componente     | Tecnología                                         |
-|----------------|---------------------------------------------------|
-| Backend        | [FastAPI](https://fastapi.tiangolo.com/)          |
-| Base de datos  | [MongoDB](https://www.mongodb.com/)               |
-| Frontend       | [React](https://reactjs.org/) + [Chart.js](https://www.chartjs.org/) o [Recharts](https://recharts.org/en-US/) |
-| Ciencia de Datos | [Python](https://www.python.org/), [Pandas](https://pandas.pydata.org/), [Scikit-learn](https://scikit-learn.org/), [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/), [Google Colab](https://colab.research.google.com/) |
-| Colaboración   | [GitHub](https://github.com/), [GitHub Projects](https://github.com/features/project-management) |
-
----
-
-## 🧪 Módulos y Funcionalidades Esperadas
-
-### 🔍 Análisis de Datos
-- Limpieza y preprocesamiento.
-- Análisis exploratorio (EDA).
-- Algoritmos de regresión (lineal, polinómica, random forest, etc.).
-- Evaluación de modelos y métricas.
-
-### 🧩 Backend (API)
-- Endpoints RESTful para consultar datos analizados.
-- Integración con MongoDB.
-- Seguridad básica y documentación automática (Swagger UI).
-
-### 🌐 Frontend
-- Visualización de datos:
-  - Gráficos de precios por zonas, fechas, tipo de propiedad, etc.
-  - Mapas interactivos (opcional).
-  - Filtros por ciudad, rango de precios, fechas.
-- Tablas de datos exportables.
-- Panel de comparación de predicciones vs datos reales.
-
----
-
-## 🧑💻 Organización del Equipo
-
-- **Control de versiones**: Git + GitHub.
-- **Planificación y tareas**: GitHub Projects.
-- **Entorno de trabajo colaborativo**: Google Colab, branches por funcionalidad, pull requests y code reviews.
-
----
-
-## 📂 Estructura del Proyecto (sugerida)
-airbnb-data-analysis/ 
-│ ├── backend/ 
-│ ├── app/ 
-│ ├── main.py 
-│ └── requirements.txt 
-│ ├── frontend/ 
-│ ├── public/ 
-│ ├── src/ 
-│ └── package.json 
-│ ├── data/ 
-│ ├── raw/ │ 
-├── processed/ 
-│ └── external/
-│ ├── notebooks/ 
-│ └── airbnb_analysis.ipynb 
-│ ├── reports/ 
-│ └── informe_ejecutivo.md 
-│ ├── README.md 
-└── .gitignore
+## 🎨 Interfaz de Usuario
+- Validación en tiempo real
+- Mensajes de error descriptivos
+- Diseño responsive
+- Animaciones de carga
+```
