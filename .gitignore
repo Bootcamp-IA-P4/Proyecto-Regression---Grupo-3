@@ -191,5 +191,5 @@ models/*.pkl
 models/*.pickle
 
 # pkl backend/src/models
-backend/src/models/*.pkl
-backend/src/models/*.pickle
+backend/models/*.pkl
+backend/models/*.pickle
