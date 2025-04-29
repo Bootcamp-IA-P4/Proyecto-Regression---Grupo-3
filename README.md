@@ -1,97 +1,81 @@
-# 📊 Análisis Inteligente de Datos de Airbnb
+# 🏠 Inside Airbnb - Madrid: Análisis Exploratorio (EDA v2) & Modelo de Predicción de Precios 🔍📊
 
-Este proyecto tiene como objetivo principal analizar datos abiertos de Airbnb mediante técnicas de regresión y análisis de datos, para extraer conclusiones valiosas, generar visualizaciones interactivas y presentar un informe ejecutivo claro. Se desarrollará una solución completa compuesta por un backend en **FastAPI**, una base de datos **MongoDB**, y un frontend interactivo para visualización de datos.
+## 📌 Visión General del Proyecto
+Este proyecto analiza datos de listados de Airbnb en Madrid para construir un modelo de predicción de precios. A través de ingeniería de características iterativa y optimización del modelo, redujimos el conjunto de datos de 105 columnas a 14 características clave mientras mejorábamos el rendimiento.
 
----
+## 🔑 Pasos Clave
 
-## 📁 Dataset Principal
+### 1. 🧹 Preparación de Datos
+- 📂 Combinamos 4 conjuntos de datos trimestrales (Marzo 2024 - Marzo 2025) en un único DataFrame
+- 🔍 Manejo de duplicados usando `id` y `scrape_id` como claves compuestas
+- 💰 Limpieza de datos de precios (eliminamos símbolos $, convertimos a float)
+- 🛠️ Tratamiento de valores faltantes en columnas clave (dormitorios, baños, camas)
 
-🔗 [Airbnb Open Data - Kaggle](https://www.kaggle.com/datasets/arianazmoudeh/airbnbopendata)
+### 2. ⚙️ Ingeniería de Características
+**📉 Características Iniciales (105) → Reducidas a 70**
+- ➕ Creación de términos de interacción (bed_bath_ratio, acc_to_beds)
+- 📅 Características temporales (host_experience_years)
+- 🛏️ Agregación de comodidades en un amenity_score
+- 🏘️ Codificación target para datos de vecindarios
 
-> Se podrán incorporar datasets adicionales relacionados con el mercado de alquiler, turismo, estacionalidad, precios o cualquier otro factor que ayude a enriquecer el análisis.
+**📊 Reducción de Características (70 → 26)**
+- 🗑️ Eliminación de características de baja importancia (< 0.01)
+- 🔄 Eliminación de características altamente correlacionadas (r > 0.85)
+- 🏷️ Consolidación de tipos de propiedad raros en categoría "Otros"
 
----
+**🎯 Conjunto Final (26 → 14)**
+- 🔝 Nos quedamos solo con las características más predictivas
+- 🏡 Enfoque en características de propiedad, ubicación y factores del anfitrión
 
-## 🎯 Objetivos del Proyecto
+### 3. 🤖 Desarrollo del Modelo
+- 🌳 Prueba de algoritmos (Random Forest y XGBoost)
+- 📈 Transformación logarítmica del precio para mejor normalidad
+- 🎛️ Optimización de hiperparámetros con GridSearchCV
+- 📏 Evaluación con métricas R² y MAE
 
-- Analizar datos de Airbnb con algoritmos de regresión para entender patrones de precios y otros factores clave.
-- Construir un informe ejecutivo con las conclusiones del análisis.
-- Desarrollar una aplicación web que permita visualizar gráficamente la información obtenida.
-- Fomentar el trabajo colaborativo usando herramientas modernas de desarrollo.
+## 🏆 Rendimiento del Modelo
 
----
+### 🥇 Mejor Modelo: Random Forest v5
+- **R² Test**: 0.7726
+- **MAE Test**: 20.11 €
+- **🔝 Características Clave**:
+  1. `room_type_Entire_home_apt` (20% importancia)
+  2. `accommodates` (15% importancia)
+  3. `neighbourhood_encoded` (8% importancia)
+  4. `bedrooms` (7% importancia)
+  5. `review_scores_rating` (4% importancia)
 
-## 🚀 Entregables
+## 📂 Estructura del Repositorio
+```
+/data
+  /raw        # Archivos CSV originales
+  /processed  # Datasets limpios y transformados
+/models      # Modelos guardados
+/notebooks   # Cuadernos Jupyter con EDA y modelado
+```
 
-| Entregable              | Descripción                                                                 |
-|------------------------|-----------------------------------------------------------------------------|
-| Google Colab           | Notebook con limpieza, análisis exploratorio, regresiones y visualizaciones. |
-| Informe Ejecutivo      | PDF/Markdown con conclusiones, gráficas clave y recomendaciones.            |
-| Aplicación Web         | Dashboard con gráficos interactivos, tablas, y exploración de los datos.    |
-| Repositorio GitHub     | Código fuente bien documentado y organizado.                                |
+## 🛠️ Cómo Reproducir
+1. Instalar requisitos: `pip install -r requirements.txt`
+2. Ejecutar cuadernos en orden:
+   - `1_data_cleaning.ipynb`
+   - `2_feature_engineering.ipynb`
+   - `3_model_training.ipynb`
 
----
+## 💡 Hallazgos Clave
+1. 🏠 Los alojamientos completos tienen precios 23% más altos en promedio
+2. 🛌 Cada dormitorio adicional aumenta el precio ~15% (rendimientos decrecientes después de 3)
+3. 🗺️ El vecindario es el determinante geográfico más fuerte del precio
+4. 🏅 El estatus de Superhost añade ~5% al precio predicho
 
-## 🧰 Stack Tecnológico
+## 🚀 Mejoras Futuras
+- 🌦️ Incorporar variaciones estacionales de precios
+- 🗺️ Añadir proximidad a atracciones turísticas como característica
+- 🔄 Implementar aprendizaje online para adaptarse a cambios del mercado
 
-| Componente     | Tecnología                                         |
-|----------------|---------------------------------------------------|
-| Backend        | [FastAPI](https://fastapi.tiangolo.com/)          |
-| Base de datos  | [MongoDB](https://www.mongodb.com/)               |
-| Frontend       | [React](https://reactjs.org/) + [Chart.js](https://www.chartjs.org/) o [Recharts](https://recharts.org/en-US/) |
-| Ciencia de Datos | [Python](https://www.python.org/), [Pandas](https://pandas.pydata.org/), [Scikit-learn](https://scikit-learn.org/), [Matplotlib](https://matplotlib.org/), [Seaborn](https://seaborn.pydata.org/), [Google Colab](https://colab.research.google.com/) |
-| Colaboración   | [GitHub](https://github.com/), [GitHub Projects](https://github.com/features/project-management) |
+## 👥 Equipo
+- 👩‍💻 Maryna Nalyvayko
+- 👨‍💻 Max Beltrán
+- 👨‍💻 Jorge Luis Mateos
+- 👨‍💻 Juan Domingo
 
----
-
-## 🧪 Módulos y Funcionalidades Esperadas
-
-### 🔍 Análisis de Datos
-- Limpieza y preprocesamiento.
-- Análisis exploratorio (EDA).
-- Algoritmos de regresión (lineal, polinómica, random forest, etc.).
-- Evaluación de modelos y métricas.
-
-### 🧩 Backend (API)
-- Endpoints RESTful para consultar datos analizados.
-- Integración con MongoDB.
-- Seguridad básica y documentación automática (Swagger UI).
-
-### 🌐 Frontend
-- Visualización de datos:
-  - Gráficos de precios por zonas, fechas, tipo de propiedad, etc.
-  - Mapas interactivos (opcional).
-  - Filtros por ciudad, rango de precios, fechas.
-- Tablas de datos exportables.
-- Panel de comparación de predicciones vs datos reales.
-
----
-
-## 🧑💻 Organización del Equipo
-
-- **Control de versiones**: Git + GitHub.
-- **Planificación y tareas**: GitHub Projects.
-- **Entorno de trabajo colaborativo**: Google Colab, branches por funcionalidad, pull requests y code reviews.
-
----
-
-## 📂 Estructura del Proyecto (sugerida)
-airbnb-data-analysis/ 
-│ ├── backend/ 
-│ ├── app/ 
-│ ├── main.py 
-│ └── requirements.txt 
-│ ├── frontend/ 
-│ ├── public/ 
-│ ├── src/ 
-│ └── package.json 
-│ ├── data/ 
-│ ├── raw/ │ 
-├── processed/ 
-│ └── external/
-│ ├── notebooks/ 
-│ └── airbnb_analysis.ipynb 
-│ ├── reports/ 
-│ └── informe_ejecutivo.md 
-│ ├── README.md 
-└── .gitignore
+Abril 2025 📅
