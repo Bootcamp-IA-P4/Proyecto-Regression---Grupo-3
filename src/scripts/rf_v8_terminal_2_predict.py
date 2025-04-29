@@ -1,4 +1,4 @@
-# Código completo para `rf_v8_terminal_predict.py` que permite hacer 
+# Código completo para `rf_v8_terminal_2_predict.py` que permite hacer 
 # predicciones interactivas desde la terminal:
 
 # -*- coding: utf-8 -*-
